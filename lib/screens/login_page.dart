@@ -1,4 +1,4 @@
-import 'package:agro_chain/screens/Distributorpage.dart';
+import 'package:agro_chain/screens/DistributerPage.dart';
 import 'package:agro_chain/screens/Retailerpage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';

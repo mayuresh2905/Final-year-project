@@ -4,7 +4,8 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:agro_chain/theme.dart';
 import 'package:agro_chain/widgets/primary_button.dart';
-import 'package:agro_chain/widgets/CropRegi_form.dart';
+
+
 
 class Transaction extends StatefulWidget {
   const Transaction({Key? key}) : super(key: key);
@@ -23,6 +24,7 @@ class _TransactionState extends State<Transaction> {
         backgroundColor: Colors.green,
       ),
       body: SingleChildScrollView(child: Column(
+       
         crossAxisAlignment: CrossAxisAlignment.start,
         
         children: [

@@ -1,4 +1,3 @@
-
 import 'package:agro_chain/screens/TransactionPage.dart';
 import 'package:agro_chain/screens/ScanResult.dart';
 import 'package:flutter/material.dart';
@@ -6,21 +5,21 @@ import 'package:agro_chain/theme.dart';
 import 'package:agro_chain/widgets/primary_button.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter/services.dart';
-class Retailer extends StatefulWidget {
-  const Retailer({Key? key}) : super(key: key);
+class Distributor extends StatefulWidget {
+  const Distributor({Key? key}) : super(key: key);
 
   @override
-  State<Retailer> createState() => _RetailerState();
+  State<Distributor> createState() => _DistributorState();
 }
 
-class _RetailerState extends State<Retailer> {
+class _DistributorState extends State<Distributor> {
 
-   var getResult = 'QR Code Result';
+  var getResult = 'QR Code Result';
   @override
   Widget build(BuildContext context) {
     return Scaffold(appBar: AppBar(
         centerTitle: true,
-        title: Text('Retailer User Interface'),
+        title: Text('DistributorUser Interface'),
         backgroundColor: Colors.green,
       ),
       body: Padding(
@@ -32,7 +31,7 @@ class _RetailerState extends State<Retailer> {
               height: 20,
             ),
             Text(
-              'Welcome Retailer',
+              'Welcome Distributor',
               style: titleText,
             ),
             SizedBox(
@@ -128,7 +127,7 @@ class _RetailerState extends State<Retailer> {
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              "Selling to Custormer",
+                                              "Transactions",
                                               style: TextStyle(
                                                 color: Colors.black54,
                                                 fontSize: 35,
@@ -182,5 +181,4 @@ class _RetailerState extends State<Retailer> {
 }
  
   
-}  
-  
+} 
