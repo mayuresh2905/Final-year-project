@@ -1,5 +1,5 @@
 import 'package:agro_chain/screens/CropReg_Page.dart';
-import 'package:agro_chain/screens/TransactionPage.dart';
+import 'package:agro_chain/screens/Transaction1Page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -112,7 +112,7 @@ class _FarmerState extends State<Farmer> {
                                 onTap: () => Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => Transaction(),
+                                    builder: (context) => Transaction1(),
                                   ),
                                 ),
                                 child: InkWell(

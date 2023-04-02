@@ -3,7 +3,7 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:agro_chain/theme.dart';
 import 'package:agro_chain/widgets/primary_button.dart';
-import 'package:agro_chain/models/crop_modal.dart';
+import 'package:agro_chain/models/Data_models.dart';
 
 class CropReg extends StatefulWidget {
   const CropReg({Key? key}) : super(key: key);

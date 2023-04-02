@@ -1,6 +1,7 @@
 
-import 'package:agro_chain/screens/TransactionPage.dart';
+import 'package:agro_chain/screens/Transaction1Page.dart';
 import 'package:agro_chain/screens/ScanResult.dart';
+import 'package:agro_chain/screens/Transaction3Page.dart';
 import 'package:flutter/material.dart';
 import 'package:agro_chain/theme.dart';
 import 'package:agro_chain/widgets/primary_button.dart';
@@ -107,7 +108,7 @@ class _RetailerState extends State<Retailer> {
                                 onTap: () => Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => Transaction(),
+                                    builder: (context) => Transaction3(),
                                   ),
                                 ),
                                 child: InkWell(

@@ -1,4 +1,5 @@
-import 'package:agro_chain/screens/TransactionPage.dart';
+import 'package:agro_chain/screens/Tranaction2Page.dart';
+import 'package:agro_chain/screens/Transaction1Page.dart';
 import 'package:agro_chain/screens/ScanResult.dart';
 import 'package:flutter/material.dart';
 import 'package:agro_chain/theme.dart';
@@ -106,7 +107,7 @@ class _DistributorState extends State<Distributor> {
                                 onTap: () => Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => Transaction(),
+                                    builder: (context) => Transaction2(),
                                   ),
                                 ),
                                 child: InkWell(
