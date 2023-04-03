@@ -1,26 +1,26 @@
-import 'package:agro_chain/screens/CropReg_Page.dart';
+import 'package:agro_chain/screens/Tranaction2Page.dart';
 import 'package:agro_chain/screens/Transaction1Page.dart';
+import 'package:agro_chain/screens/ScanResult.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:agro_chain/widgets/primary_button.dart';
 import 'package:agro_chain/theme.dart';
-import 'package:flutter/material.dart';
-
-class Farmer extends StatefulWidget {
-  const Farmer({Key? key}) : super(key: key);
+import 'package:agro_chain/widgets/primary_button.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:flutter/services.dart';
+class Distributor extends StatefulWidget {
+  const Distributor({Key? key}) : super(key: key);
 
   @override
-  State<Farmer> createState() => _FarmerState();
+  State<Distributor> createState() => _DistributorState();
 }
 
-class _FarmerState extends State<Farmer> {
+class _DistributorState extends State<Distributor> {
+
+  var getResult = 'QR Code Result';
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
+    return Scaffold(appBar: AppBar(
         centerTitle: true,
-        title: Text('Farmer User Interface'),
+        title: Text('DistributorUser Interface'),
         backgroundColor: Colors.green,
       ),
       body: Padding(
@@ -32,7 +32,7 @@ class _FarmerState extends State<Farmer> {
               height: 20,
             ),
             Text(
-              'Welcome Farmer',
+              'Welcome Distributor',
               style: titleText,
             ),
             SizedBox(
@@ -54,20 +54,16 @@ class _FarmerState extends State<Farmer> {
                               height: 180,
                               width: 315,
                               child: GestureDetector(
-                                onTap: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => CropReg(),
-                                  ),
-                                ),
+                                onTap: () {},
                                 child: InkWell(
                                   child: Container(
                                     decoration: BoxDecoration(
-                                       borderRadius: BorderRadius.circular(20),
-                                       image: DecorationImage(
-                                             image: AssetImage("assets/CropRegistration.png"),
-                                             fit: BoxFit.cover,),
-                                        ),
+                                      borderRadius: BorderRadius.circular(20),
+                                      image: DecorationImage(
+                                        image: AssetImage("assets/Incoming_Transation.png"),
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
                                     child: Align(
                                       alignment: Alignment.bottomLeft,
                                       child: Padding(
@@ -77,7 +73,7 @@ class _FarmerState extends State<Farmer> {
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              "Crop Registration",
+                                              "Incoming Transactions",
                                               style: TextStyle(
                                                 color: Colors.black87,
                                                 fontSize: 25,
@@ -99,30 +95,30 @@ class _FarmerState extends State<Farmer> {
                         SizedBox(
                           height: 10,
                         ),
-                        
                         Row(
                           children: [
                             SizedBox(
                               width: 3,
                             ),
                             SizedBox(
-                             height: 180,
+                              height: 180,
                               width: 315,
                               child: GestureDetector(
                                 onTap: () => Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => Transaction1(),
+                                    builder: (context) => Transaction2(),
                                   ),
                                 ),
                                 child: InkWell(
                                   child: Container(
                                     decoration: BoxDecoration(
-                                       borderRadius: BorderRadius.circular(20),
-                                       image: DecorationImage(
-                                             image: AssetImage("assets/Transactions.png"),
-                                             fit: BoxFit.cover,),
-                                        ),
+                                      borderRadius: BorderRadius.circular(20),
+                                      image: DecorationImage(
+                                        image: AssetImage("assets/Transactions.png"),
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
                                     child: Align(
                                       alignment: Alignment.bottomLeft,
                                       child: Padding(
@@ -134,7 +130,7 @@ class _FarmerState extends State<Farmer> {
                                             Text(
                                               "Transactions",
                                               style: TextStyle(
-                                                color: Colors.black87,
+                                                color: Colors.black54,
                                                 fontSize: 35,
                                               ),
                                             ),
@@ -151,18 +147,39 @@ class _FarmerState extends State<Farmer> {
                             )
                           ],
                         ),
-                ]),
-              )],
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
-      ),
-    );
+            SizedBox(
+              height: 10.0,
+            ),
+           GestureDetector(
+                onTap: () {
+
+                  scanQRCode();
+                  
+                },
+                child: PrimaryButton(buttonText: 'Scan QR'))])));
+    
   }
+  void scanQRCode() async {
+    try{
+      final qrCode = await FlutterBarcodeScanner.scanBarcode('#ff6666', 'Cancel', true, ScanMode.QR);
+
+      if (!mounted) return;
+
+      setState(() {
+        getResult = qrCode;
+      });
+      Navigator.push(context, MaterialPageRoute(builder: ((context) => ResultScreen( code: getResult))));
+    } on PlatformException {
+      getResult = 'Failed to scan QR Code.';
+    }
+
 }
-          
-          
-       
-       
  
+  
+} 
