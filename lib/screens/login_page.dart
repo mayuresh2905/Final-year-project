@@ -1,4 +1,4 @@
-import 'package:agro_chain/screens/Distributorpage.dart';
+import 'package:agro_chain/screens/DistributerPage.dart';
 import 'package:agro_chain/screens/Retailerpage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
@@ -12,21 +12,17 @@ import 'package:agro_chain/screens/farmerpage.dart';
 
 class login_page extends StatefulWidget {
   const login_page({Key? key}) : super(key: key);
-  
 
   @override
   State<login_page> createState() => _login_pageState();
-  
 }
 
 class _login_pageState extends State<login_page> {
- 
- String? stakeRadioBtnVal ;
+  String? stakeRadioBtnVal;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
@@ -86,111 +82,97 @@ class _login_pageState extends State<login_page> {
                 height: 20,
               ),
               Column(
-    children: <Widget>[
-      Column(
-  children: [
-      
-      RadioListTile(
-          title: Text("Farmer"),
-          value: "Farmer", 
-          groupValue: stakeRadioBtnVal, 
-          onChanged: (value){
-            setState(() {
-                stakeRadioBtnVal = value.toString();
-            });
-          },
-      ),
-
-      RadioListTile(
-          title: Text("Distributor"),
-          value: "Distributor", 
-          groupValue: stakeRadioBtnVal, 
-          onChanged: (value){
-            setState(() {
-                stakeRadioBtnVal = value.toString();
-            });
-          },
-      ),
-
-      RadioListTile(
-            title: Text("Retailer"),
-            value: "Retailer", 
-            groupValue: stakeRadioBtnVal, 
-            onChanged: (value){
-              setState(() {
-                  stakeRadioBtnVal = value.toString();
-              });
-            },
-      )
-  ],
-),
-
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ResetPasswordScreen()));
-                },
-                child: Text(
-                  'Forgot password?',
-                  style: TextStyle(
-                    color: kZambeziColor,
-                    fontSize: 14,
-                    decoration: TextDecoration.underline,
-                    decorationThickness: 1,
+                children: <Widget>[
+                  Column(
+                    children: [
+                      RadioListTile(
+                        title: Text("Farmer"),
+                        value: "Farmer",
+                        groupValue: stakeRadioBtnVal,
+                        onChanged: (value) {
+                          setState(() {
+                            stakeRadioBtnVal = value.toString();
+                          });
+                        },
+                      ),
+                      RadioListTile(
+                        title: Text("Distributor"),
+                        value: "Distributor",
+                        groupValue: stakeRadioBtnVal,
+                        onChanged: (value) {
+                          setState(() {
+                            stakeRadioBtnVal = value.toString();
+                          });
+                        },
+                      ),
+                      RadioListTile(
+                        title: Text("Retailer"),
+                        value: "Retailer",
+                        groupValue: stakeRadioBtnVal,
+                        onChanged: (value) {
+                          setState(() {
+                            stakeRadioBtnVal = value.toString();
+                          });
+                        },
+                      )
+                    ],
                   ),
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              GestureDetector(
-                onTap: () {
-                  stakeholderChange();
-                },
-                child: PrimaryButton(buttonText: 'Login')),
-              SizedBox(
-                height: 20,
-              ),
-             
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ResetPasswordScreen()));
+                    },
+                    child: Text(
+                      'Forgot password?',
+                      style: TextStyle(
+                        color: kZambeziColor,
+                        fontSize: 14,
+                        decoration: TextDecoration.underline,
+                        decorationThickness: 1,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  GestureDetector(
+                      onTap: () {
+                        stakeholderChange();
+                      },
+                      child: PrimaryButton(buttonText: 'Login')),
+                  SizedBox(
+                    height: 20,
+                  ),
+                ],
+              )
             ],
-          
-           ) ],
+          ),
         ),
-      
       ),
-    ),
     );
-   
   }
+
   void stakeholderChange() {
-     
-      if (stakeRadioBtnVal=="Farmer"){
-
-         Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Farmer(),
-                      ));
-      }
-      else if(stakeRadioBtnVal=="Distributor"){
-         Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Distributor(),
-                      ));
-
-      }
-      else if(stakeRadioBtnVal=="Retailer"){
-         Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Retailer(),
-                      ));
-
-      }
+    if (stakeRadioBtnVal == "Farmer") {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Farmer(),
+          ));
+    } else if (stakeRadioBtnVal == "Distributor") {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Distributor(),
+          ));
+    } else if (stakeRadioBtnVal == "Retailer") {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Retailer(),
+          ));
+    }
+  }
 }
-}
-
-

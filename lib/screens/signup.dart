@@ -4,11 +4,8 @@ import 'package:agro_chain/theme.dart';
 import 'package:agro_chain/widgets/checkbox.dart';
 import 'package:agro_chain/widgets/primary_button.dart';
 import 'package:agro_chain/widgets/signup_form.dart';
-import 'package:http/http.dart';
-import 'package:web3dart/web3dart.dart';
 
 class SignUpScreen extends StatelessWidget {
-  @override
   @override
   Widget build(BuildContext context) {
     return Scaffold(
