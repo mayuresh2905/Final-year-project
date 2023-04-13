@@ -1,3 +1,4 @@
+import 'package:agro_chain/screens/Income_trans1.dart';
 import 'package:agro_chain/screens/Tranaction2Page.dart';
 import 'package:agro_chain/screens/Transaction1Page.dart';
 import 'package:agro_chain/screens/ScanResult.dart';
@@ -54,7 +55,12 @@ class _DistributorState extends State<Distributor> {
                               height: 180,
                               width: 315,
                               child: GestureDetector(
-                                onTap: () {},
+                                onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Income_trans1(),
+                                  ),
+                                ),
                                 child: InkWell(
                                   child: Container(
                                     decoration: BoxDecoration(

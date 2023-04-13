@@ -1,3 +1,6 @@
+
+import 'package:agro_chain/screens/Income_trans2.dart';
+
 import 'package:agro_chain/screens/Transaction1Page.dart';
 import 'package:agro_chain/screens/ScanResult.dart';
 import 'package:agro_chain/screens/Transaction3Page.dart';
@@ -18,6 +21,7 @@ class _RetailerState extends State<Retailer> {
   var getResult = 'QR Code Result';
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
@@ -64,6 +68,7 @@ class _RetailerState extends State<Retailer> {
                                               "assets/Incoming_Transation.png"),
                                           fit: BoxFit.cover,
                                         ),
+
                                       ),
                                       child: Align(
                                         alignment: Alignment.bottomLeft,
