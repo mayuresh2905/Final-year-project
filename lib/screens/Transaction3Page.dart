@@ -206,7 +206,7 @@ Future<RenderRepaintBoundary> _captureQrCode(GlobalKey key) async {
   final boundary = RenderRepaintBoundary();
 
   // Render the QR code widget to the boundary
-  await SchedulerBinding.instance!.endOfFrame;
+  await SchedulerBinding.instance.endOfFrame;
   key.currentContext!.findRenderObject()!.visitChildren((RenderObject child) {
     child.parentData!.detach();
     boundary.child = child as RenderBox;
