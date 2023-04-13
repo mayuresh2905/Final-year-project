@@ -1,47 +1,77 @@
 class Crop_Model {
+  int product_Code;
   String crop_name;
   String type;
-  String Pesticide;
-  String Feritilizer;
-  String Quantity;
+  String farmName;
+  String productDate;
   String desc;
+  int price;
   String timeStamp;
-  Crop_Model({required this.crop_name, required this.type,required this.Pesticide,required this.Feritilizer,required this.Quantity,required this.desc,required this.timeStamp});
+  Crop_Model(
+      {required this.crop_name,
+      required this.type,
+      required this.farmName,
+      required this.productDate,
+      required this.price,
+      required this.product_Code,
+      required this.desc,
+      required this.timeStamp});
+
+  get Quantity => null;
 }
 
-class Transaction1_Model{
+class Transaction1_Model {
   int id;
+  int productCode;
   String crop_name;
   String Quantity;
-  String price;
+
   String Distributor;
   String timeStamp;
-  Transaction1_Model({ required this.id,required this.crop_name,required this.Quantity,required this.price,required this.Distributor,required this.timeStamp});
+  int price;
+  Transaction1_Model(
+      {required this.id,
+      required this.productCode,
+      required this.crop_name,
+      required this.Quantity,
+      required this.Distributor,
+      required this.timeStamp,
+      required this.price});
 }
 
-class Transaction2_Model{
-
+class Transaction2_Model {
   int id;
   String crop_name;
   String Quantity;
   String price;
   String Retailer;
   String timeStamp;
-  Transaction2_Model({ required this.id,required this.crop_name,required this.Quantity,required this.price,required this.Retailer,required this.timeStamp});
+  Transaction2_Model(
+      {required this.id,
+      required this.crop_name,
+      required this.Quantity,
+      required this.price,
+      required this.Retailer,
+      required this.timeStamp});
 }
 
-class Transaction3_Model{
-  
+class Transaction3_Model {
   int id;
   String crop_name;
   String Quantity;
   String price;
   String Customer;
   String timeStamp;
-  Transaction3_Model({ required this.id,required this.crop_name,required this.Quantity,required this.price,required this.Customer,required this.timeStamp});
+  Transaction3_Model(
+      {required this.id,
+      required this.crop_name,
+      required this.Quantity,
+      required this.price,
+      required this.Customer,
+      required this.timeStamp});
 }
 
-class Farmer{
+class Farmer {
   int id;
   String first_name;
   String last_name;
@@ -49,10 +79,17 @@ class Farmer{
   String phone_no;
   String occupation;
   String Location;
-  Farmer({required this.id, required this.first_name,required this.last_name,required this.email,required this.phone_no,required this.occupation,required this.Location});
+  Farmer(
+      {required this.id,
+      required this.first_name,
+      required this.last_name,
+      required this.email,
+      required this.phone_no,
+      required this.occupation,
+      required this.Location});
 }
 
-class Distributor{
+class Distributor {
   int id;
   String first_name;
   String last_name;
@@ -60,10 +97,17 @@ class Distributor{
   String phone_no;
   String occupation;
   String Location;
-  Distributor({required this.id, required this.first_name,required this.last_name,required this.email,required this.phone_no,required this.occupation,required this.Location});
+  Distributor(
+      {required this.id,
+      required this.first_name,
+      required this.last_name,
+      required this.email,
+      required this.phone_no,
+      required this.occupation,
+      required this.Location});
 }
 
-class Retailer{
+class Retailer {
   int id;
   String first_name;
   String last_name;
@@ -71,5 +115,12 @@ class Retailer{
   String phone_no;
   String occupation;
   String Location;
-  Retailer({required this.id, required this.first_name,required this.last_name,required this.email,required this.phone_no,required this.occupation,required this.Location});
+  Retailer(
+      {required this.id,
+      required this.first_name,
+      required this.last_name,
+      required this.email,
+      required this.phone_no,
+      required this.occupation,
+      required this.Location});
 }

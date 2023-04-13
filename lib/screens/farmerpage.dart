@@ -42,117 +42,123 @@ class _FarmerState extends State<Farmer> {
               child: Row(
                 children: [
                   Expanded(
-                    child: ListView(
-                      shrinkWrap: true,
-                      children: [
-                        Row(
-                          children: [
-                            SizedBox(
-                              width: 3,
-                            ),
-                            SizedBox(
-                              height: 180,
-                              width: 315,
-                              child: GestureDetector(
-                                onTap: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => CropReg(),
-                                  ),
+                    child: ListView(shrinkWrap: true, children: [
+                      Row(
+                        children: [
+                          SizedBox(
+                            width: 3,
+                          ),
+                          SizedBox(
+                            height: 180,
+                            width: 315,
+                            child: GestureDetector(
+                              onTap: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => CropReg(),
                                 ),
-                                child: InkWell(
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                       borderRadius: BorderRadius.circular(20),
-                                       image: DecorationImage(
-                                             image: AssetImage("assets/CropRegistration.png"),
-                                             fit: BoxFit.cover,),
-                                        ),
-                                    child: Align(
-                                      alignment: Alignment.bottomLeft,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(10.0),
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.end,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              "Crop Registration",
-                                              style: TextStyle(
-                                                color: Colors.black87,
-                                                fontSize: 25,
-                                              ),
+                              ),
+                              child: InkWell(
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    image: DecorationImage(
+                                      image: AssetImage(
+                                          "assets/CropRegistration.png"),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                  child: Align(
+                                    alignment: Alignment.bottomLeft,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Crop Registration",
+                                            style: TextStyle(
+                                              color: Colors.black87,
+                                              fontSize: 25,
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                   ),
                                 ),
                               ),
                             ),
-                            SizedBox(
-                              width: 20,
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        
-                        Row(
-                          children: [
-                            SizedBox(
-                              width: 3,
-                            ),
-                            SizedBox(
-                             height: 180,
-                              width: 315,
-                              child: GestureDetector(
-                                onTap: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => Transaction1(),
-                                  ),
+                          ),
+                          SizedBox(
+                            width: 20,
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        children: [
+                          SizedBox(
+                            width: 3,
+                          ),
+                          SizedBox(
+                            height: 180,
+                            width: 315,
+                            child: GestureDetector(
+                              onTap: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Transaction1(),
                                 ),
-                                child: InkWell(
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                       borderRadius: BorderRadius.circular(20),
-                                       image: DecorationImage(
-                                             image: AssetImage("assets/Transactions.png"),
-                                             fit: BoxFit.cover,),
-                                        ),
-                                    child: Align(
-                                      alignment: Alignment.bottomLeft,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(10.0),
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.end,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              "Transactions",
-                                              style: TextStyle(
-                                                color: Colors.black87,
-                                                fontSize: 35,
-                                              ),
+                              ),
+                              child: InkWell(
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    image: DecorationImage(
+                                      image:
+                                          AssetImage("assets/Transactions.png"),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                  child: Align(
+                                    alignment: Alignment.bottomLeft,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(10.0),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "Transactions",
+                                            style: TextStyle(
+                                              color: Colors.black87,
+                                              fontSize: 35,
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                   ),
                                 ),
                               ),
                             ),
-                            SizedBox(
-                              width: 20,
-                            )
-                          ],
-                        ),
-                ]),
-              )],
+                          ),
+                          SizedBox(
+                            width: 20,
+                          )
+                        ],
+                      ),
+                    ]),
+                  )
+                ],
               ),
             ),
           ],
@@ -161,8 +167,3 @@ class _FarmerState extends State<Farmer> {
     );
   }
 }
-          
-          
-       
-       
- 

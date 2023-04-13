@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:agro_chain/theme.dart';
 
-
 class PrimaryButton extends StatelessWidget {
   final String buttonText;
   final VoidCallback? onTap;
   PrimaryButton({required this.buttonText, this.onTap});
- @override
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
@@ -26,4 +25,3 @@ class PrimaryButton extends StatelessWidget {
     );
   }
 }
-

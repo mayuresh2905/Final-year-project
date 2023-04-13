@@ -5,7 +5,6 @@ import 'package:agro_chain/widgets/checkbox.dart';
 import 'package:agro_chain/widgets/primary_button.dart';
 import 'package:agro_chain/widgets/signup_form.dart';
 
-
 class SignUpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -73,7 +72,6 @@ class SignUpScreen extends StatelessWidget {
             SizedBox(
               height: 20,
             ),
-            
             SizedBox(
               height: 20,
             ),
@@ -91,11 +89,9 @@ class SignUpScreen extends StatelessWidget {
             SizedBox(
               height: 20,
             ),
-           
             SizedBox(
               height: 20,
             ),
-            
           ],
         ),
       ),
