@@ -10,8 +10,8 @@ import 'package:web_socket_channel/io.dart';
 import 'package:agro_chain/models/Data_models.dart';
 
 class Contract with ChangeNotifier {
-  final String _rpcUrl = "http://127.0.0.1:7545";
-  final String _wsUrl = "ws://127.0.0.1:7545/";
+  final String _rpcUrl = "http://192.168.29.196:7545";
+  final String _wsUrl = "ws://192.168.29.196:7545/";
   final String _farmerAddress =
       "c613f5e9999da2694112158134af3147d16f03dd455986db7a3454d0fcdcc325";
   final String _distributorAddress =

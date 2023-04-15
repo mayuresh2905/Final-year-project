@@ -236,7 +236,6 @@ class _CropRegState extends State<CropReg> {
       padding: EdgeInsets.symmetric(vertical: 5),
       child: TextFormField(
         controller: controller,
-        keyboardType: TextInputType.number,
         decoration: InputDecoration(
           hintText: hint,
           hintStyle: TextStyle(color: kTextFieldColor),
