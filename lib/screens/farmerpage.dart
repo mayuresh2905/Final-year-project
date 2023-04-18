@@ -6,6 +6,9 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:agro_chain/widgets/primary_button.dart';
 import 'package:agro_chain/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:agro_chain/models/Data_models.dart';
 
 class Farmer extends StatefulWidget {
   const Farmer({Key? key}) : super(key: key);
@@ -15,6 +18,23 @@ class Farmer extends StatefulWidget {
 }
 
 class _FarmerState extends State<Farmer> {
+
+  User? user = FirebaseAuth.instance.currentUser;
+  UserModel loggedInUser = UserModel();
+
+
+  @override
+  void initState() {
+    super.initState();
+    FirebaseFirestore.instance
+        .collection("users")
+        .doc(user!.uid)
+        .get()
+        .then((value) {
+      this.loggedInUser = UserModel.fromMap(value.data());
+      setState(() {});
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,7 +52,7 @@ class _FarmerState extends State<Farmer> {
               height: 20,
             ),
             Text(
-              'Welcome Farmer',
+              'Welcome ${loggedInUser.UserName}',
               style: titleText,
             ),
             SizedBox(

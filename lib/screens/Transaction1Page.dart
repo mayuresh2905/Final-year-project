@@ -277,7 +277,7 @@ class _Transaction1State extends State<Transaction1> {
                         '${transaction1[index].id},${transaction1[index].crop_name},${transaction1[index].Quantity},${transaction1[index].price},${transaction1[index].Distributor},${transaction1[index].timeStamp},',
                     version: QrVersions.auto,
                     gapless: false,
-                    size: 200.0,
+                    size: MediaQuery.of(context).size.width*0.1,
                   ),
                   title: Padding(
                     padding: EdgeInsets.symmetric(vertical: 5),

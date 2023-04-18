@@ -9,6 +9,9 @@ import 'package:agro_chain/theme.dart';
 import 'package:agro_chain/widgets/primary_button.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter/services.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:agro_chain/models/Data_models.dart';
 
 class Retailer extends StatefulWidget {
   const Retailer({Key? key}) : super(key: key);
@@ -19,6 +22,22 @@ class Retailer extends StatefulWidget {
 
 class _RetailerState extends State<Retailer> {
   var getResult = 'QR Code Result';
+  User? user = FirebaseAuth.instance.currentUser;
+  UserModel loggedInUser = UserModel();
+
+
+  @override
+  void initState() {
+    super.initState();
+    FirebaseFirestore.instance
+        .collection("users")
+        .doc(user!.uid)
+        .get()
+        .then((value) {
+      this.loggedInUser = UserModel.fromMap(value.data());
+      setState(() {});
+    });
+  }
   @override
   Widget build(BuildContext context) {
 
@@ -36,7 +55,7 @@ class _RetailerState extends State<Retailer> {
                 height: 20,
               ),
               Text(
-                'Welcome Retailer',
+                'Welcome ${loggedInUser.UserName}',
                 style: titleText,
               ),
               SizedBox(
@@ -58,7 +77,12 @@ class _RetailerState extends State<Retailer> {
                                 height: 180,
                                 width: 315,
                                 child: GestureDetector(
-                                  onTap: () {},
+                                  onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Income_trans2(),
+                                  ),
+                                ),
                                   child: InkWell(
                                     child: Container(
                                       decoration: BoxDecoration(

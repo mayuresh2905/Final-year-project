@@ -14,6 +14,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:agro_chain/services/Integration.dart';
+import 'package:provider/provider.dart';
 
 class Transaction2 extends StatefulWidget {
   const Transaction2({Key? key}) : super(key: key);
@@ -30,6 +31,7 @@ class _Transaction2State extends State<Transaction2> {
 
   List<Transaction2_Model> transaction2 = List.empty(growable: true);
   int selectedIndex = -1;
+
 
   void showBottomSheet(int? index) async {
     if (index != null) {
@@ -234,6 +236,8 @@ class _Transaction2State extends State<Transaction2> {
 
   @override
   Widget build(BuildContext context) {
+    var contractProvider = Provider.of<Contract>(context, listen: true);
+    
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -260,7 +264,7 @@ class _Transaction2State extends State<Transaction2> {
                         '${transaction2[index].id},${transaction2[index].crop_name},${transaction2[index].Quantity},${transaction2[index].price},${transaction2[index].Retailer},${transaction2[index].timeStamp},',
                     version: QrVersions.auto,
                     gapless: false,
-                    size: 200.0,
+                    size: MediaQuery.of(context).size.width*0.1,
                   ),
                   title: Padding(
                     padding: EdgeInsets.symmetric(vertical: 5),

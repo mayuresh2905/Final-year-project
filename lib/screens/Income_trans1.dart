@@ -3,6 +3,8 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:agro_chain/models/Data_models.dart';
+import 'package:provider/provider.dart';
+import 'package:agro_chain/services/Integration.dart';
 
 
 
@@ -15,8 +17,11 @@ class Income_trans1 extends StatefulWidget {
 
 class _Income_trans1State extends State<Income_trans1> {
   List<Transaction1_Model> transaction1 = List.empty(growable: true);
+  Contract? contractProvider;
   @override
   Widget build(BuildContext context) {
+    var contractProvider = Provider.of<Contract>(context, listen: true);
+    transaction1=contractProvider.transaction1;
     
     return Scaffold(
 
@@ -39,7 +44,7 @@ class _Income_trans1State extends State<Income_trans1> {
              data: '${transaction1[index].id},${transaction1[index].crop_name},${transaction1[index].Quantity},${transaction1[index].price},${transaction1[index].Distributor},${transaction1[index].timeStamp},',
              version: QrVersions.auto,
               gapless: false,
-              size: 200.0,
+              size: MediaQuery.of(context).size.width*0.1,
              ),
             title: Padding(padding: EdgeInsets.symmetric(vertical: 5),
             child: Text("Delivery to ${transaction1[index].Distributor}",

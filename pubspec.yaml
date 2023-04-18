@@ -54,6 +54,9 @@ dependencies:
   web3dart: ^2.5.1
   websocket: ^0.0.5
   web_socket_channel: ^2.3.0
+  firebase_core: ^2.9.0
+  firebase_auth: ^4.4.1
+  cloud_firestore: ^4.5.1
 
 
   # The following adds the Cupertino Icons font to your application.

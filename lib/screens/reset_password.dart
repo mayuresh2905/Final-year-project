@@ -3,14 +3,25 @@ import 'package:agro_chain/screens/login_page.dart';
 import 'package:agro_chain/theme.dart';
 import 'package:agro_chain/widgets/primary_button.dart';
 import 'package:agro_chain/widgets/reset_form.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+class ResetPasswordScreen extends StatefulWidget {
+  @override
+  _ResetPasswordScreenState createState() => _ResetPasswordScreenState();
+}
 
-class ResetPasswordScreen extends StatelessWidget {
+class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
+  final _emailController = TextEditingController();
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
         centerTitle: true,
         title: Text('Reset Password'),
         backgroundColor: Colors.green,
@@ -37,22 +48,55 @@ class ResetPasswordScreen extends StatelessWidget {
             SizedBox(
               height: 10,
             ),
-            ResetForm(),
+            Padding(
+              padding: EdgeInsets.only(top: 20),
+              child: TextFormField(
+                controller: _emailController,
+                decoration: InputDecoration(
+                  hintText: 'Email',
+                  hintStyle: TextStyle(color: kTextFieldColor),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: kPrimaryColor),
+                  ),
+                ),
+              ),
+            ),
             SizedBox(
               height: 40,
             ),
             GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => login_page(),
-                      ));
-                },
-                child: PrimaryButton(buttonText: 'Reset Password')),
+              onTap: () {
+
+                _resetPassword(_emailController.text);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => login_page(),
+                  ),
+                );
+              },
+              child: PrimaryButton(buttonText: 'Reset Password'),
+            ),
           ],
         ),
       ),
     );
   }
+
+  Future<void> _resetPassword(String email) async {
+  try {
+    await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+    // Show a success message to the user
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text('Password reset email sent'),
+      duration: Duration(seconds: 3),
+    ));
+  } catch (e) {
+    // Show an error message to the user
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text('Error resetting password'),
+      duration: Duration(seconds: 3),
+    ));
+  }
+}
 }

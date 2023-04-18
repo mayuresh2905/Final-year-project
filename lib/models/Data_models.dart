@@ -73,54 +73,82 @@ class Transaction3_Model {
 
 class Farmer {
   int id;
-  String first_name;
-  String last_name;
-  String email;
-  String phone_no;
-  String occupation;
+  String farmer_name;
   String Location;
+  String email;
+  String qualifications;
+  
   Farmer(
       {required this.id,
-      required this.first_name,
-      required this.last_name,
+      required this.farmer_name,
+      required this.Location,
       required this.email,
-      required this.phone_no,
-      required this.occupation,
-      required this.Location});
+      required this.qualifications,
+      
+      });
 }
 
 class Distributor {
   int id;
-  String first_name;
-  String last_name;
-  String email;
-  String phone_no;
-  String occupation;
+  String distributor_name;
   String Location;
+  String email;
+  String qualifications;
   Distributor(
       {required this.id,
-      required this.first_name,
-      required this.last_name,
+      required this.distributor_name,
+      required this.Location,
       required this.email,
-      required this.phone_no,
-      required this.occupation,
-      required this.Location});
+      required this.qualifications,});
 }
 
 class Retailer {
-  int id;
-  String first_name;
-  String last_name;
-  String email;
-  String phone_no;
-  String occupation;
+   int id;
+  String retailer_name;
   String Location;
+  String email;
+  String qualifications;
   Retailer(
       {required this.id,
-      required this.first_name,
-      required this.last_name,
+      required this.retailer_name,
+      required this.Location,
       required this.email,
-      required this.phone_no,
-      required this.occupation,
-      required this.Location});
+      required this.qualifications,});
+}
+
+class UserModel {
+  String? uid;
+  String? UserName;
+  String? email;
+  String? Occupation;
+  String? location;
+  String? Qualification;
+
+
+  UserModel({this.uid, this.UserName,this.email,this.Occupation,this.location,this.Qualification});
+
+  // receiving data from server
+  factory UserModel.fromMap(map) {
+    return UserModel(
+      uid: map['uid'],
+      UserName: map['UserName'],
+      email: map['email'],
+      Occupation: map['Occupation'],
+      location: map['location'],
+      Qualification: map['Qualification']
+
+    );
+  }
+
+  // sending data to our server
+  Map<String, dynamic> toMap() {
+    return {
+      'uid': uid,
+      'UserName': UserName,
+      'email':email,
+      'Occupation':Occupation,
+      'location':location,
+      'Qualification':Qualification
+    };
+  }
 }

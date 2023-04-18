@@ -10,7 +10,7 @@
   "sourceMap": "147:906:6:-:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;",
   "deployedSourceMap": "147:906:6:-:0;;;;;;;;",
   "source": "// SPDX-License-Identifier: MIT\r\npragma solidity ^0.8.0;\r\n\r\n/**\r\n * @title Roles\r\n * @dev Library for managing addresses assigned to a Role.\r\n */\r\nlibrary Roles {\r\n    struct Role {\r\n        mapping(address => bool) bearer;\r\n    }\r\n\r\n    /**\r\n     * @dev give an account access to this role\r\n     */\r\n    function add(Role storage role, address account) internal {\r\n        require(account != address(0));\r\n        require(!has(role, account));\r\n\r\n        role.bearer[account] = true;\r\n    }\r\n\r\n    /**\r\n     * @dev remove an account's access to this role\r\n     */\r\n    function remove(Role storage role, address account) internal {\r\n        require(account != address(0));\r\n        require(has(role, account));\r\n\r\n        role.bearer[account] = false;\r\n    }\r\n\r\n    /**\r\n     * @dev check if an account has this role\r\n     * @return bool\r\n     */\r\n    function has(Role storage role, address account)\r\n        internal\r\n        view\r\n        returns (bool)\r\n    {\r\n        require(account != address(0));\r\n        return role.bearer[account];\r\n    }\r\n}",
-  "sourcePath": "D:\\Code\\Blockchain\\Final-year-project\\contracts\\Roles.sol",
+  "sourcePath": "C:\\Users\\Mayuresh Prabhu\\OneDrive\\Desktop\\Grp21 - Designing Agricultural Supply Chain Tracking System by using BlockChain\\components\\trial-clone\\agro_chain1\\contracts\\Roles.sol",
   "ast": {
     "absolutePath": "project:/contracts/Roles.sol",
     "exportedSymbols": {
@@ -1346,8 +1346,8 @@
     "version": "0.8.17+commit.8df45f5f.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "3.4.10",
-  "updatedAt": "2023-04-13T07:03:41.983Z",
+  "schemaVersion": "3.4.13",
+  "updatedAt": "2023-04-17T15:11:28.216Z",
   "devdoc": {
     "details": "Library for managing addresses assigned to a Role.",
     "kind": "dev",

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "505248775743",
+    "project_id": "authfeature-cc722",
+    "storage_bucket": "authfeature-cc722.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:505248775743:android:f86b476927716e6953c28a",
+        "android_client_info": {
+          "package_name": "com.example.agro_chain"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "505248775743-ol3i5tc54rn62aitcltkvorj0thc00ee.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.agro_chain",
+            "certificate_hash": "c0101fa403e49340522b735fc6ecdbdf9163bea5"
+          }
+        },
+        {
+          "client_id": "505248775743-mchd1c7mg5opj1mg07o00pj3gk15o7kh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4Z8jmRw--aH7uKIs_ElJCsAl6W_ep9i0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "505248775743-mchd1c7mg5opj1mg07o00pj3gk15o7kh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -7,6 +7,9 @@ import 'package:agro_chain/theme.dart';
 import 'package:agro_chain/widgets/primary_button.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter/services.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:agro_chain/models/Data_models.dart';
 class Distributor extends StatefulWidget {
   const Distributor({Key? key}) : super(key: key);
 
@@ -15,6 +18,22 @@ class Distributor extends StatefulWidget {
 }
 
 class _DistributorState extends State<Distributor> {
+   User? user = FirebaseAuth.instance.currentUser;
+  UserModel loggedInUser = UserModel();
+
+
+  @override
+  void initState() {
+    super.initState();
+    FirebaseFirestore.instance
+        .collection("users")
+        .doc(user!.uid)
+        .get()
+        .then((value) {
+      this.loggedInUser = UserModel.fromMap(value.data());
+      setState(() {});
+    });
+  }
 
   var getResult = 'QR Code Result';
   @override
@@ -33,7 +52,7 @@ class _DistributorState extends State<Distributor> {
               height: 20,
             ),
             Text(
-              'Welcome Distributor',
+              'Welcome ${loggedInUser.UserName}',
               style: titleText,
             ),
             SizedBox(

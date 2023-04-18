@@ -147,7 +147,7 @@ Future<void> showQRDialog(String data) async {
       data: data,
       version: QrVersions.auto,
       gapless: false,
-      size: 200.0,
+      size: MediaQuery.of(context).size.width*0.1,
     );
 
     // Create a key for the widget
