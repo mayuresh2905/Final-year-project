@@ -9,7 +9,6 @@ import 'package:provider/provider.dart';
 import 'package:web_socket_channel/io.dart';
 import 'package:agro_chain/models/Data_models.dart';
 
-
 class Contract with ChangeNotifier {
   final String _rpcUrl = "HTTP://192.168.29.196:7545";
   final String _wsUrl = "ws://192.168.29.196:7545/";
@@ -34,12 +33,17 @@ class Contract with ChangeNotifier {
 
   //public count =0
   ContractFunction? _noteCount;
+  ContractFunction? _note1;
+  ContractFunction? _note2;
 
   //mapping functions
   ContractFunction? _transbyfarmer;
+  ContractFunction? _transaction2Page;
+  ContractFunction? _transbydistributor;
   ContractFunction? _items;
 
   List<Transaction1_Model> transaction1 = [];
+  List<Transaction2_Model> transaction2 = [];
   List<Crop_Model> crop = [];
 
   Contract() {
@@ -82,11 +86,19 @@ class Contract with ChangeNotifier {
     _transaction1Page = _deployedContract!.function("transactionByFarmer");
     _transbyfarmer = _deployedContract!.function("transbyfarmer");
     _noteCount = _deployedContract!.function("noteCount");
+    _note1 = _deployedContract!.function("note1");
+    _note2 = _deployedContract!.function("note2");
     _items = _deployedContract!.function("items");
-    _transaction2Page = _deployedContract!.function("transbydistributor");
+
+
+    _transaction2Page = _deployedContract!.function("transactionByDistributer");
+    _transbydistributor = _deployedContract!.function("transbydistributor");
+
+
 
     await fetchClassModel();
     await fetchTransaction1();
+    await fetchTransaction2();
   }
 
   Future<void> fetchTransaction1() async {
@@ -125,12 +137,12 @@ class Contract with ChangeNotifier {
   Future<void> fetchTransaction2() async {
     List totalTaskList = await _web3client!.call(
       contract: _deployedContract!,
-      function: _noteCount!,
+      function: _note1!,
       params: [],
     );
 
     int totalTaskLen = totalTaskList[0].toInt();
-    transaction1.clear();
+    transaction2.clear();
     for (var i = 0; i < totalTaskLen; i++) {
       var temp = await _web3client!.call(
           contract: _deployedContract!,
@@ -140,12 +152,12 @@ class Contract with ChangeNotifier {
         transaction2.add(
           Transaction2_Model(
             id: (temp[0] as BigInt).toInt(),
-            productCode: (temp[1] as BigInt).toInt(),
-            crop_name: temp[2],
-            Batches: (temp[3] as BigInt).toInt(),
-            price: (temp[4] as BigInt).toInt(),
-            Retailer: temp[5],
-            timeStamp: temp[6],
+            // productCode: (temp[1] as BigInt).toInt(),
+            crop_name: temp[1],
+            Batches: (temp[2] as BigInt).toInt(),
+            price: (temp[3] as BigInt).toInt(),
+            Retailer: temp[4],
+            timeStamp: temp[5],
           ),
         );
       }
@@ -154,6 +166,8 @@ class Contract with ChangeNotifier {
 
     notifyListeners();
   }
+
+  
 
   transact1Page(int id, int productCode, String crop_name, String Quantity,
       String Distributor, String timeStamp, int price) async {
@@ -191,8 +205,8 @@ class Contract with ChangeNotifier {
     await fetchTransaction1();
   }
 
-  transact2Page(int id, int productCode, String crop_name, int Batches,
-      String Retailer, String timeStamp, int price) async {
+  transact2Page(int id, String crop_name, int Batches, String Retailer,
+      String timeStamp, int price) async {
     isLoading = true;
     notifyListeners();
     await _web3client!.sendTransaction(
@@ -202,7 +216,7 @@ class Contract with ChangeNotifier {
             function: _transaction2Page!,
             parameters: [
               BigInt.from(id),
-              BigInt.from(productCode),
+              // BigInt.from(productCode),
               crop_name,
               BigInt.from(Batches),
               Retailer,
@@ -216,14 +230,13 @@ class Contract with ChangeNotifier {
             function: _transaction2Page!,
             parameters: [
               BigInt.from(id),
-              BigInt.from(productCode),
+              // BigInt.from(productCode),
               crop_name,
               BigInt.from(Batches),
               Retailer,
               timeStamp,
               BigInt.from(price)
             ]));
-
     await fetchTransaction2();
   }
 

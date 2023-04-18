@@ -14,6 +14,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:agro_chain/services/Integration.dart';
+import 'package:provider/provider.dart';
 
 class Transaction2 extends StatefulWidget {
   const Transaction2({Key? key}) : super(key: key);
@@ -29,14 +30,15 @@ class _Transaction2State extends State<Transaction2> {
   TextEditingController RetailerController = TextEditingController();
 
   List<Transaction2_Model> transaction2 = List.empty(growable: true);
+  Contract? contractProvider;
   int selectedIndex = -1;
 
-  void showBottomSheet(int? index) async {
+  void showBottomSheet(int? index, Contract contractProvider) async {
     if (index != null) {
       cropNameController.text = transaction2[index].crop_name;
-      quantityController.text = transaction2[index].Quantity;
-      priceController.text = transaction2[index].price;
-      RetailerController.text = transaction2[index].price;
+      // quantityController.text = transaction2[index].Batches;
+      // priceController.text = transaction2[index].price;
+      RetailerController.text = transaction2[index].Retailer;
 
       setState(() {
         selectedIndex = index;
@@ -60,8 +62,8 @@ class _Transaction2State extends State<Transaction2> {
               child: Column(
                 children: [
                   buildInputForm('Crop Name', cropNameController),
-                  buildInputForm('Quantity', quantityController),
-                  buildInputForm('Price', priceController),
+                  buildInputForm('Batches', quantityController),
+                  buildInputForm('Price per kg', priceController),
                   buildInputForm('Retailer Name', RetailerController),
                 ],
               ),
@@ -72,46 +74,54 @@ class _Transaction2State extends State<Transaction2> {
             Padding(
               padding: kDefaultPadding,
               child: PrimaryButton(
-                buttonText: index == null ? "Add Data" : "Update",
-                onTap: () {
-                  String cropName = cropNameController.text.trim();
-                  String quantity = quantityController.text.trim();
-                  String Price = priceController.text.trim();
-                  String Retailer = RetailerController.text.trim();
-                  String timeStamp = DateTime.now().toString();
+                  buttonText: index == null ? "Add Data" : "Update",
+                  onTap: () {
+                    String cropName = cropNameController.text.trim();
+                    int Batches = int.parse(quantityController.text.trim());
+                    int Price = int.parse(priceController.text.trim());
+                    String Retailer = RetailerController.text.trim();
+                    String timeStamp = DateTime.now().toString();
 
-                  if (cropName.isNotEmpty &&
-                      quantity.isNotEmpty &&
-                      Price.isNotEmpty &&
-                      Retailer.isNotEmpty) {
-                    if (selectedIndex >= 0 &&
-                        selectedIndex < transaction2.length) {
-                      // Update existing crop
-                      setState(() {
-                        transaction2[selectedIndex] = Transaction2_Model(
-                          id: transaction2[selectedIndex].id,
-                          crop_name: cropName,
-                          Quantity: quantity,
-                          price: Price,
-                          Retailer: Retailer,
-                          timeStamp: timeStamp,
-                        );
-                      });
-                    } else {
-                      // Add new crop
-                      setState(() {
-                        int id = DateTime.now().millisecondsSinceEpoch;
-                        transaction2.add(
-                          Transaction2_Model(
-                            id: id,
+                    if (cropName.isNotEmpty &&
+                        Retailer.isNotEmpty) {
+                      if (selectedIndex >= 0 &&
+                          selectedIndex < transaction2.length) {
+                        // Update existing crop
+                        setState(() {
+                          transaction2[selectedIndex] = Transaction2_Model(
+                            id: transaction2[selectedIndex].id,
+                            // productCode: transaction2[selectedIndex].id,
                             crop_name: cropName,
-                            Quantity: quantity,
+                            Batches: Batches,
                             price: Price,
                             Retailer: Retailer,
                             timeStamp: timeStamp,
-                          ),
-                        );
-                      });
+                          );
+                        });
+                      } else {
+                        // Add new crop
+                        setState(() {
+                          int id = DateTime.now().millisecondsSinceEpoch;
+                          transaction2.add(
+                            Transaction2_Model(
+                              id: id,
+                              // productCode: transaction2[selectedIndex].id,
+                              crop_name: cropName,
+                              Batches: Batches,
+                              price: Price,
+                              Retailer: Retailer,
+                              timeStamp: timeStamp,
+                            ),
+                          );
+                        });
+                        contractProvider.transact2Page(
+                            DateTime.now().millisecondsSinceEpoch,
+                            cropNameController.text,
+                            int.parse(quantityController.text),
+                            RetailerController.text,
+                            DateTime.now().toString(),
+                            int.parse(priceController.text));
+                      }
                     }
                     // Clear the form
                     cropNameController.clear();
@@ -121,9 +131,7 @@ class _Transaction2State extends State<Transaction2> {
 
                     // Close the bottom sheet
                     Navigator.of(context).pop();
-                  }
-                },
-              ),
+                  }),
             ),
           ],
         ),
@@ -234,6 +242,8 @@ class _Transaction2State extends State<Transaction2> {
 
   @override
   Widget build(BuildContext context) {
+    var contractProvider = Provider.of<Contract>(context, listen: true);
+    transaction2 = contractProvider.transaction2;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -257,7 +267,7 @@ class _Transaction2State extends State<Transaction2> {
                 child: ListTile(
                   leading: QrImage(
                     data:
-                        '${transaction2[index].id},${transaction2[index].crop_name},${transaction2[index].Quantity},${transaction2[index].price},${transaction2[index].Retailer},${transaction2[index].timeStamp},',
+                        '${transaction2[index].id},${transaction2[index].crop_name},${transaction2[index].Batches},${transaction2[index].price},${transaction2[index].Retailer},${transaction2[index].timeStamp},',
                     version: QrVersions.auto,
                     gapless: false,
                     size: 200.0,
@@ -287,7 +297,7 @@ class _Transaction2State extends State<Transaction2> {
                     children: [
                       IconButton(
                           onPressed: (() {
-                            showBottomSheet(index);
+                            showBottomSheet(index, contractProvider);
                           }),
                           icon: Icon(Icons.edit, color: Colors.indigo)),
                       IconButton(
@@ -306,7 +316,7 @@ class _Transaction2State extends State<Transaction2> {
             ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.green,
-        onPressed: () => showBottomSheet(null),
+        onPressed: () => showBottomSheet(null, contractProvider),
         child: Icon(Icons.add),
       ),
     );

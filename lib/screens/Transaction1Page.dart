@@ -62,10 +62,10 @@ class _Transaction1State extends State<Transaction1> {
               padding: kDefaultPadding,
               child: Column(
                 children: [
-                  buildInputForm('productCOODe', productCodeController),
+                  buildInputForm('product Code', productCodeController),
                   buildInputForm('Crop Name', cropNameController),
-                  buildInputForm('Quantity', quantityController),
-                  buildInputForm('Price', priceController),
+                  buildInputForm('Quantity of Items', quantityController),
+                  buildInputForm('Price per Kg', priceController),
                   buildInputForm('Distributor Name', distributorController),
                 ],
               ),
