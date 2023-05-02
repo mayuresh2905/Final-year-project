@@ -1,4 +1,5 @@
 import 'package:agro_chain/screens/Income_trans1.dart';
+import 'package:agro_chain/screens/ResultScreen1.dart';
 import 'package:agro_chain/screens/Tranaction2Page.dart';
 import 'package:agro_chain/screens/Transaction1Page.dart';
 import 'package:agro_chain/screens/ScanResult.dart';
@@ -199,7 +200,7 @@ class _DistributorState extends State<Distributor> {
       setState(() {
         getResult = qrCode;
       });
-      Navigator.push(context, MaterialPageRoute(builder: ((context) => ResultScreen( code: getResult))));
+      Navigator.push(context, MaterialPageRoute(builder: ((context) => ResultScreen1( code: getResult))));
     } on PlatformException {
       getResult = 'Failed to scan QR Code.';
     }

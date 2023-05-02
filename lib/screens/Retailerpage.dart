@@ -1,5 +1,6 @@
 
 import 'package:agro_chain/screens/Income_trans2.dart';
+import 'package:agro_chain/screens/ResultScreen2.dart';
 
 import 'package:agro_chain/screens/Transaction1Page.dart';
 import 'package:agro_chain/screens/ScanResult.dart';
@@ -212,7 +213,7 @@ class _RetailerState extends State<Retailer> {
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: ((context) => ResultScreen(code: getResult))));
+              builder: ((context) => ResultScreen2(code: getResult))));
     } on PlatformException {
       getResult = 'Failed to scan QR Code.';
     }

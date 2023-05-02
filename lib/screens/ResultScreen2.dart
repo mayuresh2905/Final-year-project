@@ -7,15 +7,15 @@ import 'package:qr_flutter/qr_flutter.dart';
 
 
 
-class ResultScreen extends StatefulWidget {
+class ResultScreen2 extends StatefulWidget {
   final String code;
-  const ResultScreen({Key? key, required this.code}) : super(key: key);
+  const ResultScreen2({Key? key, required this.code}) : super(key: key);
 
   @override
-  _ResultScreenState createState() => _ResultScreenState();
+  _ResultScreen2State createState() => _ResultScreen2State();
 }
 
-class _ResultScreenState extends State<ResultScreen> {
+class _ResultScreen2State extends State<ResultScreen2> {
   int currentStep = 0;
   Widget _buildTickIcon() {
   return Icon(
@@ -181,19 +181,7 @@ late final Map<String, dynamic> data;
                      ],
                    ),
                   ),
-                Step(
-                  title: Text(data['retailer']['status']),
-                  subtitle: Text(data['retailer']['timestamp_of_retailer_to_customer']),
-                  content: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                         Text('Retailer Name: ${data['retailer']['name']}'),
-                          Text('Email: ${data['retailer']['email']}'),
-                           Text('Location: ${data['retailer']['location']}'),
-                            Text('Qualification: ${data['retailer']['qualification']}'),
-                       ],
-                     ),
-                    ),
+               
   
               ]
             ),

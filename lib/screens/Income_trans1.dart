@@ -44,7 +44,7 @@ class _Income_trans1State extends State<Income_trans1> {
              data: '${transaction1[index].id},${transaction1[index].crop_name},${transaction1[index].Quantity},${transaction1[index].price},${transaction1[index].Distributor},${transaction1[index].timeStamp},',
              version: QrVersions.auto,
               gapless: false,
-              size: MediaQuery.of(context).size.width*0.1,
+              size: MediaQuery.of(context).size.width*0.25,
              ),
             title: Padding(padding: EdgeInsets.symmetric(vertical: 5),
             child: Text("Delivery to ${transaction1[index].Distributor}",

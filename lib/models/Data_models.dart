@@ -42,14 +42,14 @@ class Transaction1_Model {
 class Transaction2_Model {
   int id;
   String crop_name;
-  String Quantity;
-  String price;
+  int Batches;
+  int price;
   String Retailer;
   String timeStamp;
   Transaction2_Model(
       {required this.id,
       required this.crop_name,
-      required this.Quantity,
+      required this.Batches,
       required this.price,
       required this.Retailer,
       required this.timeStamp});

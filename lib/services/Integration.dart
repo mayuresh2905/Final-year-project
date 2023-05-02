@@ -10,14 +10,14 @@ import 'package:web_socket_channel/io.dart';
 import 'package:agro_chain/models/Data_models.dart';
 
 class Contract with ChangeNotifier {
-  final String _rpcUrl =  "http://192.168.1.100:7545";
-  final String _wsUrl = Platform.isAndroid ? 'http://10.0.2.2:7545':"ws://192.168.1.100:7545/";
+  final String _rpcUrl =  "http://192.168.1.102:7545";
+  final String _wsUrl = Platform.isAndroid ? 'http://10.0.2.2:7545':"ws://192.168.1.102:7545/";
   final String _farmerAddress =
-      "725e527f4822015b44d804d86d8ba160c52acf1008bcd9530ca472156a7cd54e";
+      "8676b6d0e14c176b21b7c51b4dcf4249badc8d4230f6fbb19ca1af19b6a8ebd9";
   final String _distributorAddress =
-      "70b554cb383e8647fa5809185f0b219f853470dbbae2862b7cdd050163185575";
+      "7b9209f42c32cfce496c73bd1635af63b25a9800d85af7374ee22bb02d294d5a";
   final String _retailerAddress =
-      "d29be0d545c3d8723300ad9267f68337eb659d3f59d303cc740fcfdff1e1663c";
+      "3cb296d575130b3068d28a53a3df16e23d07dde26b4479e370d37f4e9268a955";
 
   bool isLoading = true;
   Web3Client? _web3client;
@@ -33,12 +33,18 @@ class Contract with ChangeNotifier {
 
   //public count =0
   ContractFunction? _noteCount;
+  ContractFunction? _note1;
+  ContractFunction? _note2;
 
   //mapping functions
   ContractFunction? _transbyfarmer;
   ContractFunction? _items;
 
+   ContractFunction? _transaction2Page;
+  ContractFunction? _transbydistributor;
+
   List<Transaction1_Model> transaction1 = [];
+  List<Transaction2_Model> transaction2 = [];
   List<Crop_Model> crop = [];
 
   Contract() {
@@ -81,10 +87,17 @@ class Contract with ChangeNotifier {
     _transaction1Page = _deployedContract!.function("transactionByFarmer");
     _transbyfarmer = _deployedContract!.function("transbyfarmer");
     _noteCount = _deployedContract!.function("noteCount");
+    _note1 = _deployedContract!.function("note1");
+    _note2 = _deployedContract!.function("note2");
     _items = _deployedContract!.function("items");
+    
+    _transaction2Page = _deployedContract!.function("transactionByDistributer");
+    _transbydistributor = _deployedContract!.function("transbydistributor");
 
     await fetchClassModel();
     await fetchTransaction1();
+    await fetchTransaction2();
+
   }
 
   Future<void> fetchTransaction1() async {
@@ -120,6 +133,40 @@ class Contract with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> fetchTransaction2() async {
+    List totalTaskList = await _web3client!.call(
+      contract: _deployedContract!,
+      function: _note1!,
+      params: [],
+    );
+
+    int totalTaskLen = totalTaskList[0].toInt();
+    transaction2.clear();
+    for (var i = 0; i < totalTaskLen; i++) {
+      var temp = await _web3client!.call(
+          contract: _deployedContract!,
+          function: _transbydistributor!,
+          params: [BigInt.from(i)]);
+      if (temp[1] != "") {
+        transaction2.add(
+          Transaction2_Model(
+            id: (temp[0] as BigInt).toInt(),
+            // productCode: (temp[1] as BigInt).toInt(),
+            crop_name: temp[1],
+            Batches: (temp[2] as BigInt).toInt(),
+            price: (temp[3] as BigInt).toInt(),
+            Retailer: temp[4],
+            timeStamp: temp[5],
+          ),
+        );
+      }
+    }
+    isLoading = false;
+
+    notifyListeners();
+  }
+
+
   transact1Page(int id, int productCode, String crop_name, String Quantity,
       String Distributor, String timeStamp, int price) async {
     isLoading = true;
@@ -154,6 +201,41 @@ class Contract with ChangeNotifier {
             ]));
 
     await fetchTransaction1();
+  }
+
+  transact2Page(int id, String crop_name, int Batches, String Retailer,
+      String timeStamp, int price) async {
+    isLoading = true;
+    notifyListeners();
+    await _web3client!.sendTransaction(
+        _dcredentials!,
+        Transaction.callContract(
+            contract: _deployedContract!,
+            function: _transaction2Page!,
+            parameters: [
+              BigInt.from(id),
+              // BigInt.from(productCode),
+              crop_name,
+              BigInt.from(Batches),
+              Retailer,
+              timeStamp,
+              BigInt.from(price)
+            ]));
+    await _web3client!.sendTransaction(
+        _rcredentials!,
+        Transaction.callContract(
+            contract: _deployedContract!,
+            function: _transaction2Page!,
+            parameters: [
+              BigInt.from(id),
+              // BigInt.from(productCode),
+              crop_name,
+              BigInt.from(Batches),
+              Retailer,
+              timeStamp,
+              BigInt.from(price)
+            ]));
+    await fetchTransaction2();
   }
 
   Future<void> fetchClassModel() async {

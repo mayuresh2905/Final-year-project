@@ -7,15 +7,15 @@ import 'package:qr_flutter/qr_flutter.dart';
 
 
 
-class ResultScreen extends StatefulWidget {
+class ResultScreen1 extends StatefulWidget {
   final String code;
-  const ResultScreen({Key? key, required this.code}) : super(key: key);
+  const ResultScreen1({Key? key, required this.code}) : super(key: key);
 
   @override
-  _ResultScreenState createState() => _ResultScreenState();
+  _ResultScreen1State createState() => _ResultScreen1State();
 }
 
-class _ResultScreenState extends State<ResultScreen> {
+class _ResultScreen1State extends State<ResultScreen1> {
   int currentStep = 0;
   Widget _buildTickIcon() {
   return Icon(
@@ -168,32 +168,7 @@ late final Map<String, dynamic> data;
                      ],
                    ),
                   ),
-                Step(
-                   title: Text(data['distributor']['status']),
-                   subtitle: Text(data['distributor']['timestamp_of_delivery_to_retailer']),
-                   content: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('Distributor Name: ${data['distributor']['name']}'),
-                      Text('Email: ${data['distributor']['email']}'),
-                      Text('Location: ${data['distributor']['location']}'),
-                      Text('Qualification: ${data['distributor']['qualification']}'),
-                     ],
-                   ),
-                  ),
-                Step(
-                  title: Text(data['retailer']['status']),
-                  subtitle: Text(data['retailer']['timestamp_of_retailer_to_customer']),
-                  content: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                         Text('Retailer Name: ${data['retailer']['name']}'),
-                          Text('Email: ${data['retailer']['email']}'),
-                           Text('Location: ${data['retailer']['location']}'),
-                            Text('Qualification: ${data['retailer']['qualification']}'),
-                       ],
-                     ),
-                    ),
+              
   
               ]
             ),

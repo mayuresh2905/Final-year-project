@@ -15,6 +15,10 @@ import 'package:flutter/scheduler.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:agro_chain/services/Integration.dart';
 import 'package:provider/provider.dart';
+import 'package:share/share.dart';
+import 'package:qr_flutter/qr_flutter.dart';
+import 'package:barcode_widget/barcode_widget.dart';
+
 
 class Transaction1 extends StatefulWidget {
   const Transaction1({Key? key}) : super(key: key);
@@ -49,7 +53,10 @@ class _Transaction1State extends State<Transaction1> {
       elevation: 5,
       isScrollControlled: true,
       context: context,
-      builder: (context) => Container(
+      builder: (context) => Material(
+        elevation: 5,
+        child: Container(
+       
         padding: EdgeInsets.only(
           top: 30,
           left: 15,
@@ -62,7 +69,7 @@ class _Transaction1State extends State<Transaction1> {
               padding: kDefaultPadding,
               child: Column(
                 children: [
-                  buildInputForm('productCOODe', productCodeController),
+                  buildInputForm('product code', productCodeController),
                   buildInputForm('Crop Name', cropNameController),
                   buildInputForm('Quantity', quantityController),
                   buildInputForm('Price', priceController),
@@ -107,6 +114,8 @@ class _Transaction1State extends State<Transaction1> {
                       // Add new crop
                       setState(() {
                         int id = DateTime.now().millisecondsSinceEpoch;
+                        
+                        
                         transaction1.add(
                           Transaction1_Model(
                             id: id,
@@ -118,7 +127,13 @@ class _Transaction1State extends State<Transaction1> {
                             timeStamp: timeStamp,
                           ),
                         );
+                        print("In Set State");
+                      
+                      
                       });
+                        print("${productCode},${cropName},${distributor},${Price},${DateTime.now().toString()}");
+                        shareQrCode("${DateTime.now().millisecondsSinceEpoch},${productCode},${cropName},${distributor},${Price},${DateTime.now().toString()}");
+                      
                       contractProvider.transact1Page(
                           DateTime.now().millisecondsSinceEpoch,
                           int.parse(productCodeController.text),
@@ -127,13 +142,17 @@ class _Transaction1State extends State<Transaction1> {
                           distributorController.text,
                           DateTime.now().toString(),
                           int.parse(priceController.text));
+                          
+                          //showQRDialog("${ DateTime.now().millisecondsSinceEpoch},${int.parse(productCodeController.text)},${cropNameController.text},${distributorController.text},${int.parse(priceController.text)},${DateTime.now().toString()}");
+                      
+                     
                     }
                     // Clear the form
                     cropNameController.clear();
                     quantityController.clear();
                     priceController.clear();
                     distributorController.clear();
-
+                    
                     // Close the bottom sheet
                     Navigator.of(context).pop();
                   }
@@ -143,11 +162,12 @@ class _Transaction1State extends State<Transaction1> {
           ],
         ),
       ),
+      )
     );
   }
 
   Future<void> showQRDialog(String data) async {
-    try {
+      
       // Create the QR code as a widget
       final qrCode = QrImage(
         data: data,
@@ -155,29 +175,40 @@ class _Transaction1State extends State<Transaction1> {
         gapless: false,
         size: 200.0,
       );
-
-      // Create a key for the widget
+     
+      // Create a key for the widget.
       final qrKey = GlobalKey();
-
+      key:qrKey;
+      if (qrKey.currentContext != null) {
+  print(' The key is attached');
+} else {
+  print(' The key is not attached');
+}
+    
       // Create a boundary for the widget
       final boundary = await _captureQrCode(qrKey);
-
-      // Render the QR code to an image
+      print("in function");
+      print(boundary);
+      print("in function");   
+      // Render the QR code to an imaget4ui
       final image = await boundary.toImage(pixelRatio: 3.0);
-
+      
       // Convert the image to PNG bytes
       final byteData = await image.toByteData(format: ImageByteFormat.png);
-      final pngBytes = byteData!.buffer.asUint8List();
+       
+      var pngBytes = byteData!.buffer.asUint8List() ?? Uint8List(0);
 
       // Save the PNG bytes to a file
       // ...
 
       // Show a dialog box with the QR code image
+      // ignore: use_build_context_synchronously
       showDialog(
         context: context,
         builder: (BuildContext context) {
+          BuildContext dialogContext = context;
           return AlertDialog(
-            title: Text('Download QR Code'),
+            title: const Text('Download QR Code'),
             content: Center(
               child: RepaintBoundary(
                 key: qrKey,
@@ -202,23 +233,36 @@ class _Transaction1State extends State<Transaction1> {
           );
         },
       );
-    } catch (e) {
-      print("Error generating QR code: $e");
-    }
+    
   }
 
   Future<RenderRepaintBoundary> _captureQrCode(GlobalKey key) async {
     // Create a repaint boundary to capture the QR code widget
-    final boundary = RenderRepaintBoundary();
+    var boundary = RenderRepaintBoundary();
 
+    print('in capture');
     // Render the QR code widget to the boundary
     await SchedulerBinding.instance.endOfFrame;
+    bool hasChildren = false;
+key.currentContext?.findRenderObject()?.visitChildren((RenderObject child) {
+  hasChildren = true;
+});
+if (hasChildren) {
+  print('The RenderObject has children');
+} else {
+  print('The RenderObject has no children');
+  // The RenderObject has no children
+}
     key.currentContext!.findRenderObject()!.visitChildren((RenderObject child) {
+      
       child.parentData!.detach();
+      print("in key");
       boundary.child = child as RenderBox;
+      
     });
     await boundary.toImage(pixelRatio: 3.0);
-
+    print(boundary.debugNeedsPaint);
+    print("end of boundry");
     return boundary;
   }
 
@@ -230,6 +274,40 @@ class _Transaction1State extends State<Transaction1> {
       print("Error saving QR code to gallery: ${result['errorMessage']}");
     }
   }
+
+  void shareQrCode(data) async {
+  // Generate the QR code data
+  final qrData = data;
+  print(data);
+  // Create a QrPainter
+  final painter = QrPainter(
+    data: data,
+    version: QrVersions.auto,
+    gapless: false,
+    color: Colors.black,
+    emptyColor: Colors.white,
+  );
+
+  print(painter);
+
+  // Generate an image of the QR code
+  final image = await painter.toImage(2000);
+  print(image);
+  // Convert the image to bytes
+  final byteData = await image.toByteData(format: ImageByteFormat.png);
+  final bytes = byteData?.buffer.asUint8List();
+
+  final tempDir = await getTemporaryDirectory();
+  print(tempDir.path);
+  print(tempDir.path);
+  print(tempDir.path);
+  print(bytes!.length);
+  final file = await File('${tempDir.path}/qr_code1.png').create();
+   file.writeAsBytesSync(bytes);
+
+  // Share the QR code image file
+  await Share.shareFiles([file.path], text: 'Share QR Code');
+}
 
   Padding buildInputForm(String hint, TextEditingController controller) {
     return Padding(
@@ -277,7 +355,7 @@ class _Transaction1State extends State<Transaction1> {
                         '${transaction1[index].id},${transaction1[index].crop_name},${transaction1[index].Quantity},${transaction1[index].price},${transaction1[index].Distributor},${transaction1[index].timeStamp},',
                     version: QrVersions.auto,
                     gapless: false,
-                    size: MediaQuery.of(context).size.width*0.1,
+                   size: MediaQuery.of(context).size.width*0.20,
                   ),
                   title: Padding(
                     padding: EdgeInsets.symmetric(vertical: 5),
