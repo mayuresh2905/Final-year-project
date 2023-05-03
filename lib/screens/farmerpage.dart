@@ -84,7 +84,7 @@ class _FarmerState extends State<Farmer> {
                                     borderRadius: BorderRadius.circular(20),
                                     image: DecorationImage(
                                       image: AssetImage(
-                                          "assets/CropRegistration.png"),
+                                          "assets/CROP_REGISTRATION.png"),
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -99,7 +99,7 @@ class _FarmerState extends State<Farmer> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            "Crop Registration",
+                                            "",
                                             style: TextStyle(
                                               color: Colors.black87,
                                               fontSize: 25,

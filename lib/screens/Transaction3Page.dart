@@ -13,6 +13,7 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:share/share.dart';
 
 class Transaction3 extends StatefulWidget {
   const Transaction3({Key? key}) : super(key: key);
@@ -120,6 +121,7 @@ class _Transaction3State extends State<Transaction3> {
 
                     // Close the bottom sheet
                     Navigator.of(context).pop();
+                    showQRDialog('{"transaction": {"id": "123456","delivery_from": "Tanmay Doshi","status": "Sold"},"crop": {"name": "Tomatoes","type": "Vegetable","description": "Fresh and ripe tomatoes from a local farm", "timestamp_of_registration": "11 October 2023 12:00 pm","status": "Crop Registered"},"farmer": { "name": "Mayuresh Prabhu","email": "mayureshprabhu29@gmail.com","location": "Gurugram","qualification": "M.A.", "timestamp_of_farmer_to_distributor": "14 November 2023 11:00 am","status": "From Farmer to Distributor"}, "distributor": {"name": "Kiran Suryawanshi","email": "Kiransuryawanshi03@gmail.com","location": "Dombivili","qualification": "M.Com", "timestamp_of_delivery_to_retailer": "17 November 2023 11:00 pm","status": "From Distributor to Retailer"},"retailer": {"name": "Tanmay Doshi", "email": "doshitanmay@gmail.com","location": "Fresh Mart, GHI Street, New York","qualification": "M.Com","timestamp_of_retailer_to_customer": "20 November 2023 12:00 pm","status": "From Retailer to Customer"}}');
                   }
                 },
               ),
@@ -131,50 +133,49 @@ class _Transaction3State extends State<Transaction3> {
   }
 
   Future<void> showQRDialog(String data) async {
-    try {
-      // Create the QR code as a widget
-      final qrCode = QrImage(
-        data: data,
-        version: QrVersions.auto,
-        gapless: false,
-        size: 200.0,
-      );
-
-      // Create a key for the widget
-      final qrKey = GlobalKey();
-
-      // Create a boundary for the widget
-      final boundary = await _captureQrCode(qrKey);
-
-      // Render the QR code to an image
-      final image = await boundary.toImage(pixelRatio: 3.0);
-
-      // Convert the image to PNG bytes
-      final byteData = await image.toByteData(format: ImageByteFormat.png);
-      final pngBytes = byteData!.buffer.asUint8List();
-
-      // Save the PNG bytes to a file
-      // ...
-
-      // Show a dialog box with the QR code image
+      
+     
       showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Download QR Code'),
-            content: Center(
-              child: RepaintBoundary(
-                key: qrKey,
-                child: qrCode,
-              ),
-            ),
-            actions: <Widget>[
+  context: context,
+  builder: (BuildContext context) {
+    return AlertDialog(
+      title: Container(
+        
+        
+        child: Text(
+          'Share QR Code',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: Colors.lightGreen,
+            fontSize: 18.0,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+      content: Center(
+        child: QrImage(
+          data: data,
+          version: QrVersions.auto,
+          gapless: false,
+          size: 200.0,
+        ),
+      ),
+      actions: <Widget>[
+        Container(
+          width: MediaQuery.of(context).size.width,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
               TextButton(
-                child: Text('Download'),
+                child: Text('Share QR'),
                 onPressed: () {
                   // Download the QR code image
-                  saveQrCodeToGallery(pngBytes);
+                  shareQrCode(data);
                 },
+              ),
+              VerticalDivider(
+                thickness: 1.0,
+                color: Colors.grey[400],
               ),
               TextButton(
                 child: Text('Close'),
@@ -183,37 +184,49 @@ class _Transaction3State extends State<Transaction3> {
                 },
               ),
             ],
-          );
-        },
-      );
-    } catch (e) {
-      print("Error generating QR code: $e");
-    }
+          ),
+        ),
+      ],
+    );
+  },
+);
+    
   }
 
-  Future<RenderRepaintBoundary> _captureQrCode(GlobalKey key) async {
-    // Create a repaint boundary to capture the QR code widget
-    final boundary = RenderRepaintBoundary();
 
-    // Render the QR code widget to the boundary
-    await SchedulerBinding.instance.endOfFrame;
-    key.currentContext!.findRenderObject()!.visitChildren((RenderObject child) {
-      child.parentData!.detach();
-      boundary.child = child as RenderBox;
-    });
-    await boundary.toImage(pixelRatio: 3.0);
+  void shareQrCode(data) async {
+  // Generate the QR code data
+  final qrData = data;
+  print(data);
+  // Create a QrPainter
+  final painter = QrPainter(
+    data: data,
+    version: QrVersions.auto,
+    gapless: false,
+    color: Colors.black,
+    emptyColor: Colors.white,
+  );
 
-    return boundary;
-  }
+  print(painter);
 
-  Future<void> saveQrCodeToGallery(Uint8List pngBytes) async {
-    final result = await ImageGallerySaver.saveImage(pngBytes);
-    if (result['isSuccess']) {
-      print("QR code saved to gallery");
-    } else {
-      print("Error saving QR code to gallery: ${result['errorMessage']}");
-    }
-  }
+  // Generate an image of the QR code
+  final image = await painter.toImage(2000);
+  print(image);
+  // Convert the image to bytes
+  final byteData = await image.toByteData(format: ImageByteFormat.png);
+  final bytes = byteData?.buffer.asUint8List();
+
+  final tempDir = await getTemporaryDirectory();
+  print(tempDir.path);
+  print(tempDir.path);
+  print(tempDir.path);
+  print(bytes!.length);
+  final file = await File('${tempDir.path}/qr_code1.png').create();
+   file.writeAsBytesSync(bytes);
+
+  // Share the QR code image file
+  await Share.shareFiles([file.path], text: 'Share QR Code');
+}
 
   Padding buildInputForm(String hint, TextEditingController controller) {
     return Padding(

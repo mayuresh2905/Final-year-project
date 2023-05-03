@@ -90,7 +90,7 @@ class _RetailerState extends State<Retailer> {
                                         borderRadius: BorderRadius.circular(20),
                                         image: DecorationImage(
                                           image: AssetImage(
-                                              "assets/Incoming_Transation.png"),
+                                              "assets/INCOMING_TRANSACTIONS.png"),
                                           fit: BoxFit.cover,
                                         ),
 
@@ -106,7 +106,7 @@ class _RetailerState extends State<Retailer> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                "Incoming Transactions",
+                                                "",
                                                 style: TextStyle(
                                                   color: Colors.black87,
                                                   fontSize: 25,
@@ -149,7 +149,7 @@ class _RetailerState extends State<Retailer> {
                                         borderRadius: BorderRadius.circular(20),
                                         image: DecorationImage(
                                           image: AssetImage(
-                                              "assets/Transactions.png"),
+                                              "assets/SELLING_TO_CUSTOMER.png"),
                                           fit: BoxFit.cover,
                                         ),
                                       ),
@@ -164,7 +164,7 @@ class _RetailerState extends State<Retailer> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                "Selling to Custormer",
+                                                "",
                                                 style: TextStyle(
                                                   color: Colors.black54,
                                                   fontSize: 35,

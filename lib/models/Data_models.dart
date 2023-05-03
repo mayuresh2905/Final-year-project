@@ -25,7 +25,6 @@ class Transaction1_Model {
   int productCode;
   String crop_name;
   String Quantity;
-
   String Distributor;
   String timeStamp;
   int price;
@@ -40,19 +39,25 @@ class Transaction1_Model {
 }
 
 class Transaction2_Model {
+  
   int id;
+  
   String crop_name;
-  int Batches;
-  int price;
-  String Retailer;
+  String retailer;
+  String batches;
   String timeStamp;
+  int price;
+  
+  
   Transaction2_Model(
-      {required this.id,
+      {required this.id,    
       required this.crop_name,
-      required this.Batches,
+      required this.retailer,
+      required this.batches,
+      required this.timeStamp,
       required this.price,
-      required this.Retailer,
-      required this.timeStamp});
+      
+      });
 }
 
 class Transaction3_Model {

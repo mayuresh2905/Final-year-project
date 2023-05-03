@@ -86,7 +86,7 @@ class _DistributorState extends State<Distributor> {
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(20),
                                       image: DecorationImage(
-                                        image: AssetImage("assets/Incoming_Transation.png"),
+                                        image: AssetImage("assets/INCOMING_TRANSACTIONS.png"),
                                         fit: BoxFit.cover,
                                       ),
                                     ),
@@ -99,7 +99,7 @@ class _DistributorState extends State<Distributor> {
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              "Incoming Transactions",
+                                              "",
                                               style: TextStyle(
                                                 color: Colors.black87,
                                                 fontSize: 25,

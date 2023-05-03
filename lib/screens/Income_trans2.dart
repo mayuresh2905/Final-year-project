@@ -25,7 +25,7 @@ class _Income_trans2State extends State<Income_trans2> {
       appBar: AppBar(
         centerTitle: true,
         title: Text('Income Transaction'),
-        backgroundColor: Platform.isAndroid ? Colors.green : Colors.blue,
+        backgroundColor: Colors.green ,
       ),
       body: transaction2.isEmpty
           ? Center(
@@ -44,14 +44,14 @@ class _Income_trans2State extends State<Income_trans2> {
                 child: ListTile(
                   leading: QrImage(
                     data:
-                        '${transaction2[index].id},${transaction2[index].crop_name},${transaction2[index].Batches},${transaction2[index].price},${transaction2[index].Retailer},${transaction2[index].timeStamp},',
+                        '${transaction2[index].id},${transaction2[index].crop_name},${transaction2[index].batches},${transaction2[index].price},${transaction2[index].retailer},${transaction2[index].timeStamp},',
                     version: QrVersions.auto,
                     gapless: false,
                     size: MediaQuery.of(context).size.width*0.25,
                   ),
                   title: Padding(
                     padding: EdgeInsets.symmetric(vertical: 5),
-                    child: Text("Delivery to ${transaction2[index].Retailer}",
+                    child: Text("Delivery to ${transaction2[index].retailer}",
                         style: TextStyle(
                           fontSize: 20,
                         )),

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
-import "./Ownable.sol";
+
 import "./FarmerRole.sol";
 import "./DistributorRole.sol";
 import "./RetailerRole.sol";
@@ -9,7 +9,7 @@ import "./Context.sol";
 pragma solidity >= 0.5.0 < 0.9.0;
 
 contract main is
-    Ownable,
+
     FarmerRole,
     DistributorRole,
     RetailerRole
@@ -28,9 +28,10 @@ contract main is
 
 struct Transbydistributor{
     uint256 id;
+   
     string productName;
     string retailName;
-    uint256 batches;
+    string batches;
     string timestamp;
     uint256 price;
 }
@@ -46,7 +47,7 @@ struct Transbydistributor{
 
 
   event FarmerTransaction(uint256 id,uint256 productCode,string productName,string distName,string quantity,string timestamp,uint256 price);
-  event DistributorTransaction(uint256 id,string productName,string retailName,uint256 batches,string timestamp,uint256 price);
+  event DistributorTransaction(uint256 id,string productName,string retailName,string batches,string timestamp,uint256 price);
     address owner;
 
     uint256 productCode;
@@ -206,10 +207,10 @@ public  {
 }
 
 
-function transactionByDistributer( uint256 _id,string memory _productName, string memory _retailName, uint256 _batches,string memory _timestamp, uint256 _price) 
+function transactionByDistributer(uint256 _id,string memory _productName, string memory _retailName, string memory _batches,string memory _timestamp, uint256 _price) 
 public  {
      transbydistributor[note1] = Transbydistributor(note1,_productName,_retailName,_batches,_timestamp,_price);
-        emit DistributorTransaction(note1, _productName, _retailName, _batches, _timestamp, _price);
+    emit DistributorTransaction(note1,_productName, _retailName, _batches, _timestamp, _price);
     note1++;
 }
 

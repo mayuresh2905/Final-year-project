@@ -67,7 +67,7 @@ class _CustomerState extends State<Customer> {
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(20),
                                     image: DecorationImage(
-                                      image: AssetImage("assets/QR_Scan.png"),
+                                      image: AssetImage("assets/SCAN_QR_CODE.png"),
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -82,7 +82,7 @@ class _CustomerState extends State<Customer> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            "Scan QR Code",
+                                            "",
                                             style: TextStyle(
                                               color: Colors.white,
                                               fontSize: 25,
@@ -125,7 +125,7 @@ class _CustomerState extends State<Customer> {
                                     borderRadius: BorderRadius.circular(20),
                                     image: DecorationImage(
                                       image:
-                                          AssetImage("assets/Stakeholder.png"),
+                                          AssetImage("assets/LOGIN_AS_A_STAKEHOLDER.png"),
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -140,7 +140,7 @@ class _CustomerState extends State<Customer> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            "Login as Stakeholder",
+                                            "",
                                             style: TextStyle(
                                               color: Colors.black87,
                                               fontSize: 35,

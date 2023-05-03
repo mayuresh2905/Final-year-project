@@ -114,8 +114,7 @@ class _Transaction1State extends State<Transaction1> {
                       // Add new crop
                       setState(() {
                         int id = DateTime.now().millisecondsSinceEpoch;
-                        
-                        
+      
                         transaction1.add(
                           Transaction1_Model(
                             id: id,
@@ -132,8 +131,8 @@ class _Transaction1State extends State<Transaction1> {
                       
                       });
                         print("${productCode},${cropName},${distributor},${Price},${DateTime.now().toString()}");
-                        shareQrCode("${DateTime.now().millisecondsSinceEpoch},${productCode},${cropName},${distributor},${Price},${DateTime.now().toString()}");
-                      
+                        // shareQrCode("${DateTime.now().millisecondsSinceEpoch},${productCode},${cropName},${distributor},${Price},${DateTime.now().toString()}");
+                      // showQRDialog("${DateTime.now().millisecondsSinceEpoch},${productCode},${cropName},${distributor},${Price},${DateTime.now().toString()}");
                       contractProvider.transact1Page(
                           DateTime.now().millisecondsSinceEpoch,
                           int.parse(productCodeController.text),
@@ -152,9 +151,11 @@ class _Transaction1State extends State<Transaction1> {
                     quantityController.clear();
                     priceController.clear();
                     distributorController.clear();
-                    
+                    // showQRDialog("${DateTime.now().millisecondsSinceEpoch},${productCode},${cropName},${distributor},${Price},${DateTime.now().toString()}");
                     // Close the bottom sheet
                     Navigator.of(context).pop();
+                    
+                    showQRDialog('{"transaction": {"id": "123456","delivery_from": "Mayuresh Prabhu","status": "Pending"},"crop": {"name": "Tomatoes","type": "Vegetable","description": "Fresh and ripe tomatoes from a local farm","timestamp_of_registration": "11 October 2023 12:00 pm","status": "Crop Registered"},"farmer": {"name": "Mayuresh Prabhu","email": "mayureshprabhu29@gmail.com","location": "Gurugram","qualification": "M.A.","timestamp_of_farmer_to_distributor": "14 November 2023 11:00 am","status": "From Farmer to Distributor"}}');
                   }
                 },
               ),
@@ -168,60 +169,48 @@ class _Transaction1State extends State<Transaction1> {
 
   Future<void> showQRDialog(String data) async {
       
-      // Create the QR code as a widget
-      final qrCode = QrImage(
-        data: data,
-        version: QrVersions.auto,
-        gapless: false,
-        size: 200.0,
-      );
      
-      // Create a key for the widget.
-      final qrKey = GlobalKey();
-      key:qrKey;
-      if (qrKey.currentContext != null) {
-  print(' The key is attached');
-} else {
-  print(' The key is not attached');
-}
-    
-      // Create a boundary for the widget
-      final boundary = await _captureQrCode(qrKey);
-      print("in function");
-      print(boundary);
-      print("in function");   
-      // Render the QR code to an imaget4ui
-      final image = await boundary.toImage(pixelRatio: 3.0);
-      
-      // Convert the image to PNG bytes
-      final byteData = await image.toByteData(format: ImageByteFormat.png);
-       
-      var pngBytes = byteData!.buffer.asUint8List() ?? Uint8List(0);
-
-      // Save the PNG bytes to a file
-      // ...
-
-      // Show a dialog box with the QR code image
-      // ignore: use_build_context_synchronously
       showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          BuildContext dialogContext = context;
-          return AlertDialog(
-            title: const Text('Download QR Code'),
-            content: Center(
-              child: RepaintBoundary(
-                key: qrKey,
-                child: qrCode,
-              ),
-            ),
-            actions: <Widget>[
+  context: context,
+  builder: (BuildContext context) {
+    return AlertDialog(
+      title: Container(
+        
+        
+        child: Text(
+          'Share QR Code',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            color: Colors.lightGreen,
+            fontSize: 18.0,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+      content: Center(
+        child: QrImage(
+          data: data,
+          version: QrVersions.auto,
+          gapless: false,
+          size: 200.0,
+        ),
+      ),
+      actions: <Widget>[
+        Container(
+          width: MediaQuery.of(context).size.width,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
               TextButton(
-                child: Text('Download'),
+                child: Text('Share QR'),
                 onPressed: () {
                   // Download the QR code image
-                  saveQrCodeToGallery(pngBytes);
+                  shareQrCode(data);
                 },
+              ),
+              VerticalDivider(
+                thickness: 1.0,
+                color: Colors.grey[400],
               ),
               TextButton(
                 child: Text('Close'),
@@ -230,50 +219,15 @@ class _Transaction1State extends State<Transaction1> {
                 },
               ),
             ],
-          );
-        },
-      );
+          ),
+        ),
+      ],
+    );
+  },
+);
     
   }
 
-  Future<RenderRepaintBoundary> _captureQrCode(GlobalKey key) async {
-    // Create a repaint boundary to capture the QR code widget
-    var boundary = RenderRepaintBoundary();
-
-    print('in capture');
-    // Render the QR code widget to the boundary
-    await SchedulerBinding.instance.endOfFrame;
-    bool hasChildren = false;
-key.currentContext?.findRenderObject()?.visitChildren((RenderObject child) {
-  hasChildren = true;
-});
-if (hasChildren) {
-  print('The RenderObject has children');
-} else {
-  print('The RenderObject has no children');
-  // The RenderObject has no children
-}
-    key.currentContext!.findRenderObject()!.visitChildren((RenderObject child) {
-      
-      child.parentData!.detach();
-      print("in key");
-      boundary.child = child as RenderBox;
-      
-    });
-    await boundary.toImage(pixelRatio: 3.0);
-    print(boundary.debugNeedsPaint);
-    print("end of boundry");
-    return boundary;
-  }
-
-  Future<void> saveQrCodeToGallery(Uint8List pngBytes) async {
-    final result = await ImageGallerySaver.saveImage(pngBytes);
-    if (result['isSuccess']) {
-      print("QR code saved to gallery");
-    } else {
-      print("Error saving QR code to gallery: ${result['errorMessage']}");
-    }
-  }
 
   void shareQrCode(data) async {
   // Generate the QR code data

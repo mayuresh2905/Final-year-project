@@ -15,6 +15,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:agro_chain/services/Integration.dart';
 import 'package:provider/provider.dart';
+import 'package:share/share.dart';
 
 class Transaction2 extends StatefulWidget {
   const Transaction2({Key? key}) : super(key: key);
@@ -24,10 +25,11 @@ class Transaction2 extends StatefulWidget {
 }
 
 class _Transaction2State extends State<Transaction2> {
+  
   TextEditingController cropNameController = TextEditingController();
   TextEditingController quantityController = TextEditingController();
   TextEditingController priceController = TextEditingController();
-  TextEditingController RetailerController = TextEditingController();
+  TextEditingController retailerController = TextEditingController();
 
   List<Transaction2_Model> transaction2 = List.empty(growable: true);
   Contract? contractProvider;
@@ -36,9 +38,9 @@ class _Transaction2State extends State<Transaction2> {
   void showBottomSheet(int? index, Contract contractProvider) async {
     if (index != null) {
       cropNameController.text = transaction2[index].crop_name;
-      // quantityController.text = transaction2[index].Batches;
-      // priceController.text = transaction2[index].price;
-      RetailerController.text = transaction2[index].Retailer;
+      quantityController.text = transaction2[index].batches; 
+      //priceController.text = transaction2[index].price;
+      retailerController.text = transaction2[index].retailer;
 
       setState(() {
         selectedIndex = index;
@@ -61,10 +63,11 @@ class _Transaction2State extends State<Transaction2> {
               padding: kDefaultPadding,
               child: Column(
                 children: [
+                   
                   buildInputForm('Crop Name', cropNameController),
                   buildInputForm('Batches', quantityController),
                   buildInputForm('Price per kg', priceController),
-                  buildInputForm('Retailer Name', RetailerController),
+                  buildInputForm('Retailer Name', retailerController),
                 ],
               ),
             ),
@@ -76,27 +79,25 @@ class _Transaction2State extends State<Transaction2> {
               child: PrimaryButton(
                   buttonText: index == null ? "Add Data" : "Update",
                   onTap: () {
+                     
                     String cropName = cropNameController.text.trim();
-                    int Batches = int.parse(quantityController.text.trim());
-                    int Price = int.parse(priceController.text.trim());
-                    String Retailer = RetailerController.text.trim();
+                    String batches = quantityController.text.trim();
+                    int price = int.parse(priceController.text.trim());
+                    String retailer = retailerController.text.trim();
                     String timeStamp = DateTime.now().toString();
 
-                    if (cropName.isNotEmpty &&
-                        Retailer.isNotEmpty) {
+                    if (cropName.isNotEmpty && retailer.isNotEmpty) {
                       if (selectedIndex >= 0 &&
                           selectedIndex < transaction2.length) {
                         // Update existing crop
                         setState(() {
                           transaction2[selectedIndex] = Transaction2_Model(
-                            id: transaction2[selectedIndex].id,
-                            // productCode: transaction2[selectedIndex].id,
-                            crop_name: cropName,
-                            Batches: Batches,
-                            price: Price,
-                            Retailer: Retailer,
-                            timeStamp: timeStamp,
-                          );
+                              id: transaction2[selectedIndex].id,
+                              crop_name: cropName,
+                              batches: batches,
+                              price: price,
+                              retailer: retailer,
+                              timeStamp: timeStamp);
                         });
                       } else {
                         // Add new crop
@@ -104,34 +105,37 @@ class _Transaction2State extends State<Transaction2> {
                           int id = DateTime.now().millisecondsSinceEpoch;
                           transaction2.add(
                             Transaction2_Model(
-                              id: id,
-                              // productCode: transaction2[selectedIndex].id,
-                              crop_name: cropName,
-                              Batches: Batches,
-                              price: Price,
-                              Retailer: Retailer,
-                              timeStamp: timeStamp,
-                            ),
+                                id: id,
+                               
+                                crop_name: cropName,
+                                batches: batches,
+                                price: price,
+                                retailer: retailer,
+                                timeStamp: timeStamp),
                           );
                         });
                         contractProvider.transact2Page(
-                            DateTime.now().millisecondsSinceEpoch,
+                            DateTime.now().millisecondsSinceEpoch,                    
                             cropNameController.text,
-                            int.parse(quantityController.text),
-                            RetailerController.text,
+                            retailerController.text,
+                            quantityController.text,
                             DateTime.now().toString(),
                             int.parse(priceController.text));
                       }
-                    }
-                    // Clear the form
-                    cropNameController.clear();
-                    quantityController.clear();
-                    priceController.clear();
-                    RetailerController.clear();
+                      // Clear the form
+                      cropNameController.clear();
+                      quantityController.clear();
+                      priceController.clear();
+                      retailerController.clear();
 
-                    // Close the bottom sheet
-                    Navigator.of(context).pop();
-                  }),
+                      // Close the bottom sheet
+                      Navigator.of(context).pop();
+
+                      showQRDialog(
+                          '{"transaction": {"id": "123456","delivery_from": "Kiran Suryavanshi","status": "Pending"},"crop": {"name": "Tomatoes","type": "Vegetable","description": "Fresh and ripe tomatoes from a local farm","timestamp_of_registration": "11 October 2023 12:00 pm","status": "Crop Registered"},"farmer": {"name": "Mayuresh Prabhu","email": "mayureshprabhu29@gmail.com","location": "Gurugram","qualification": "M.A.","timestamp_of_farmer_to_distributor": "14 November 2023 11:00 am","status": "From Farmer to Distributor"},"distributor": {"name": "Kiran ","email": "kiransuryawanshi03gmail.com","location": "Dombivili", "qualification": "M.Com","timestamp_of_delivery_to_retailer": "17 November 2023 11:00 pm","status": "From Distributor to Retailer"}}');
+                    }
+                  },
+                  ),
             ),
           ],
         ),
@@ -140,88 +144,93 @@ class _Transaction2State extends State<Transaction2> {
   }
 
   Future<void> showQRDialog(String data) async {
-    try {
-      // Create the QR code as a widget
-      final qrCode = QrImage(
-        data: data,
-        version: QrVersions.auto,
-        gapless: false,
-        size: 200.0,
-      );
-
-      // Create a key for the widget
-      final qrKey = GlobalKey();
-
-      // Create a boundary for the widget
-      final boundary = await _captureQrCode(qrKey);
-
-      // Render the QR code to an image
-      final image = await boundary.toImage(pixelRatio: 3.0);
-
-      // Convert the image to PNG bytes
-      final byteData = await image.toByteData(format: ImageByteFormat.png);
-      final pngBytes = byteData!.buffer.asUint8List();
-
-      // Save the PNG bytes to a file
-      // ...
-
-      // Show a dialog box with the QR code image
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Download QR Code'),
-            content: Center(
-              child: RepaintBoundary(
-                key: qrKey,
-                child: qrCode,
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Container(
+            child: Text(
+              'Share QR Code',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.lightGreen,
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold,
               ),
             ),
-            actions: <Widget>[
-              TextButton(
-                child: Text('Download'),
-                onPressed: () {
-                  // Download the QR code image
-                  saveQrCodeToGallery(pngBytes);
-                },
+          ),
+          content: Center(
+            child: QrImage(
+              data: data,
+              version: QrVersions.auto,
+              gapless: false,
+              size: 200.0,
+            ),
+          ),
+          actions: <Widget>[
+            Container(
+              width: MediaQuery.of(context).size.width,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  TextButton(
+                    child: Text('Share QR'),
+                    onPressed: () {
+                      // Download the QR code image
+                      shareQrCode(data);
+                    },
+                  ),
+                  VerticalDivider(
+                    thickness: 1.0,
+                    color: Colors.grey[400],
+                  ),
+                  TextButton(
+                    child: Text('Close'),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
               ),
-              TextButton(
-                child: Text('Close'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
-      );
-    } catch (e) {
-      print("Error generating QR code: $e");
-    }
+            ),
+          ],
+        );
+      },
+    );
   }
 
-  Future<RenderRepaintBoundary> _captureQrCode(GlobalKey key) async {
-    // Create a repaint boundary to capture the QR code widget
-    final boundary = RenderRepaintBoundary();
+  void shareQrCode(data) async {
+    // Generate the QR code data
+    final qrData = data;
+    print(data);
+    // Create a QrPainter
+    final painter = QrPainter(
+      data: data,
+      version: QrVersions.auto,
+      gapless: false,
+      color: Colors.black,
+      emptyColor: Colors.white,
+    );
 
-    // Render the QR code widget to the boundary
-    await SchedulerBinding.instance.endOfFrame;
-    key.currentContext!.findRenderObject()!.visitChildren((RenderObject child) {
-      child.parentData!.detach();
-      boundary.child = child as RenderBox;
-    });
-    await boundary.toImage(pixelRatio: 3.0);
+    print(painter);
 
-    return boundary;
-  }
+    // Generate an image of the QR code
+    final image = await painter.toImage(2000);
+    print(image);
+    // Convert the image to bytes
+    final byteData = await image.toByteData(format: ImageByteFormat.png);
+    final bytes = byteData?.buffer.asUint8List();
 
-  Future<void> saveQrCodeToGallery(Uint8List pngBytes) async {
-    final result = await ImageGallerySaver.saveImage(pngBytes);
-    if (result['isSuccess']) {
-      print("QR code saved to gallery");
-    } else {
-      print("Error saving QR code to gallery: ${result['errorMessage']}");
-    }
+    final tempDir = await getTemporaryDirectory();
+    print(tempDir.path);
+    print(tempDir.path);
+    print(tempDir.path);
+    print(bytes!.length);
+    final file = await File('${tempDir.path}/qr_code1.png').create();
+    file.writeAsBytesSync(bytes);
+
+    // Share the QR code image file
+    await Share.shareFiles([file.path], text: 'Share QR Code');
   }
 
   Padding buildInputForm(String hint, TextEditingController controller) {
@@ -267,14 +276,14 @@ class _Transaction2State extends State<Transaction2> {
                 child: ListTile(
                   leading: QrImage(
                     data:
-                        '${transaction2[index].id},${transaction2[index].crop_name},${transaction2[index].Batches},${transaction2[index].price},${transaction2[index].Retailer},${transaction2[index].timeStamp},',
+                        '${transaction2[index].id},${transaction2[index].crop_name},${transaction2[index].batches},${transaction2[index].price},${transaction2[index].retailer},${transaction2[index].timeStamp},',
                     version: QrVersions.auto,
                     gapless: false,
-                    size: MediaQuery.of(context).size.width*0.20,
+                    size: MediaQuery.of(context).size.width * 0.20,
                   ),
                   title: Padding(
                     padding: EdgeInsets.symmetric(vertical: 5),
-                    child: Text("Delivery to ${transaction2[index].Retailer}",
+                    child: Text("Delivery to ${transaction2[index].retailer}",
                         style: TextStyle(
                           fontSize: 20,
                         )),

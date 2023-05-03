@@ -21,8 +21,7 @@ class _Income_trans1State extends State<Income_trans1> {
   @override
   Widget build(BuildContext context) {
     var contractProvider = Provider.of<Contract>(context, listen: true);
-    transaction1=contractProvider.transaction1;
-    
+    transaction1 = contractProvider.transaction1;
     return Scaffold(
 
        appBar: AppBar(
